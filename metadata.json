@@ -1,0 +1,17 @@
+{
+  "name": "buzzdeee-rarpd",
+  "version": "0.1.0",
+  "author": "buzzdeee",
+  "summary": "Puppet Module to manage rarpd",
+  "license": "Apache 2.0",
+  "source": "https://github.com/buzzdeee/buzzdeee-rarpd.git",
+  "project_page": "https://github.com/buzzdeee/buzzdeee-rarpd",
+  "issues_url": "https://github.com/buzzdeee/buzzdeee-rarpd/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-concat",
+      "version_range": ">= 1.1.0"
+    }
+  ]
+}
+
