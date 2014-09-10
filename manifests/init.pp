@@ -37,6 +37,7 @@
 #
 class rarpd (
   $config_file      = $rarpd::config_file,
+  $enable_yplookup  = false,
   $service_enable   = $rarpd::service_enable,
   $service_ensure   = $rarpd::service_ensure,
   $service_flags    = $rarpd::service_flags,
@@ -46,11 +47,20 @@ class rarpd (
   concat { $config_file:
     ensure  => 'present',
     owner   => 'root',
-    group   => 0,
-    mode    => 0644,
+    group   => '0',
+    mode    => '0644',
     notify  => Service[$service_name],
   }
   Concat[$config_file] -> Service[$service_name]
+
+  if $enable_yplookup {
+    concat::fragment { "rarpd-config-yplookup":
+      order      => '99',
+      target     => $rarpd::config_file,
+      content    => "+\n",
+    }
+  }
+
   class { 'rarpd::service':
     service_enable => $service_enable,
     service_ensure => $service_ensure,
