@@ -1,3 +1,5 @@
+# Private class, do not use directly.
+# Used to manage the service.
 class rarpd::service (
   $service_enable,
   $service_ensure,

@@ -1,11 +1,15 @@
-define rarpd::config (
-  $macaddress,
-  $hostname = $title,
+# Private class, do not use directly.
+# used to create the configuration file
+
+class rarpd::config (
+  $ethers,
+  $config_file,
+  $enable_yplookup
 ) {
-  include rarpd::params
-  concat::fragment { "rarpd-config-${hostname}":
-    order      => '01',
-    target     => $rarpd::config_file,
-    content    => template('rarpd/ethers.erb'),
+  file { $config_file:
+    owner   => 'root',
+    group   => '0',
+    mode    => '0644',
+    content => template('rarpd/ethers.erb'),
   }
 }

@@ -1,1 +1,7 @@
+<% if @ethers.is_a? Hash -%><% @ethers.each do |hostname, macaddress| -%>
 <%= macaddress %>	<%= hostname %>
+<%- end -%>
+<%- end -%>
+<% if @enable_yplookup -%>
++
+<%- end -%>
