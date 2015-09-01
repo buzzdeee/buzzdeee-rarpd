@@ -1,3 +1,5 @@
+# This file is managed via Puppet
+# manual changes will be lost with next Puppet run
 <% if @ethers.is_a? Hash -%><% @ethers.each do |hostname, macaddress| -%>
 <%= macaddress %>	<%= hostname %>
 <%- end -%>
