@@ -1,10 +1,24 @@
+---
 language: ruby
-bundler_args: --without development
+sudo: false
+cache: bundler
+bundler_args: --without system_tests
+script: ["bundle exec rake validate", "bundle exec rake lint", "bundle exec rake spec SPEC_OPTS='--format documentation'", "bundle exec rake metadata"]
 before_install: rm Gemfile.lock || true
 rvm:
   - 2.1.0
-script: bundle exec rake test
 env:
   - PUPPET_VERSION="~> 3.6.0" STRICT_VARIABLES=yes FACTER_GEM_VERSION="~> 2.2.0"
   - PUPPET_VERSION="~> 3.8.3" STRICT_VARIABLES=yes FACTER_GEM_VERSION="~> 2.4.0"
-sudo: false
+
+deploy:
+  provider: puppetforge
+  user: buzzdeee
+  password:
+    secure: "EXCHANGE ME"
+  on:
+    tags: true
+    # all_branches is required to use tags
+    all_branches: true
+    # Only publish if our main Ruby target builds
+    rvm: 2.1.0
