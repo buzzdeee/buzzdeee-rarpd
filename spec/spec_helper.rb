@@ -5,6 +5,8 @@ require 'mocha'
 require 'puppet'
 require 'rspec'
 require 'spec/autorun'
+require 'rspec-puppet-facts'
+include RspecPuppetFacts
 
 Spec::Runner.configure do |config|
     config.mock_with :mocha
