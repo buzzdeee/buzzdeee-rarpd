@@ -35,7 +35,7 @@
 #
 # Copyright 2014 Your name here, unless otherwise noted.
 #
-class rarpd (
+class ::rarpd (
   $config_file      = $rarpd::params::config_file,
   $enable_yplookup  = $rarpd::params::enable_yplookup,
   $service_enable   = $rarpd::params::service_enable,
