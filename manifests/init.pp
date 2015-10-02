@@ -45,19 +45,19 @@ class rarpd (
   $ethers           = undef,
 ) inherits rarpd::params {
 
-  class { 'rarpd::config':
+  class { '::rarpd::config':
     config_file     => $config_file,
     enable_yplookup => $enable_yplookup,
     ethers          => $ethers,
   }
 
-  class { 'rarpd::service':
+  class { '::rarpd::service':
     service_enable => $service_enable,
     service_ensure => $service_ensure,
     service_flags  => $service_flags,
     service_name   => $service_name,
   }
 
-  Class['rarpd::config'] ~>
-  Class['rarpd::service']
+  Class['::rarpd::config'] ~>
+  Class['::rarpd::service']
 }
