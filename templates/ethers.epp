@@ -1,0 +1,10 @@
+# This file is managed via Puppet
+# manual changes will be lost with next Puppet run
+<%if $::rarpd::ethers { -%>
+<% $::rarpd::ethers.each |$hostname, $macaddress| { -%>
+<%= $macaddress %>	<%= $hostname %>
+<%- } -%>
+<%- } -%>
+<% if $::rarpd::enable_yplookup { -%>
++
+<%- } -%>

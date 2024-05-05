@@ -1,31 +1,42 @@
 # == Class: rarpd
 #
-# Full description of class rarpd here.
+# This module configures rarpd.
 #
 # === Parameters
 #
 # Document parameters here.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# [*config_file*]
+#   String: path to config file, default: /etc/ethers
 #
-# === Variables
+# [*enable_yplookup*]
+#   Boolean: enable yplookup?, default: false
 #
-# Here you should define a list of variables that this module would require.
+# [*service_enable*]
+#   Boolean: enable the service?, default: true
 #
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*service_ensure*]
+#   Enum[running, stopped]: desired service state, default: "running"
+#
+# [*service_flags*]
+#   String: flags passed to the service, default: "-al"
+#
+# [*service_name*]
+#   String: the name of the service, default: "rarpd"
+#
+# [*ethers*]
+#   Optional Hash: contents that goes into the config file.
 #
 # === Examples
 #
-#  class { rarpd:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
+# In the very simplest case, you just include the following:
+#
+# include rarpd 
+#
+# Configuration example for Hiera:
+#
+# rarpd::ethers:
+#   node1: "00:11:22:33:44:55"
 #
 # === Authors
 #
@@ -36,28 +47,17 @@
 # Copyright 2014 Your name here, unless otherwise noted.
 #
 class rarpd (
-  $config_file      = $rarpd::params::config_file,
-  $enable_yplookup  = $rarpd::params::enable_yplookup,
-  $service_enable   = $rarpd::params::service_enable,
-  $service_ensure   = $rarpd::params::service_ensure,
-  $service_flags    = $rarpd::params::service_flags,
-  $service_name     = $rarpd::params::service_name,
-  $ethers           = undef,
-) inherits rarpd::params {
+  String $config_file,
+  Boolean $enable_yplookup,
+  Boolean $service_enable,
+  Enum[running, stopped, 'running', 'stopped'] $service_ensure,
+  String $service_flags,
+  String $service_name,
+  Optional[Hash] $ethers,
+) {
+  contain rarpd::config
+  contain rarpd::service
 
-  class { '::rarpd::config':
-    config_file     => $config_file,
-    enable_yplookup => $enable_yplookup,
-    ethers          => $ethers,
-  }
-
-  class { '::rarpd::service':
-    service_enable => $service_enable,
-    service_ensure => $service_ensure,
-    service_flags  => $service_flags,
-    service_name   => $service_name,
-  }
-
-  Class['::rarpd::config'] ~>
-  Class['::rarpd::service']
+  Class['rarpd::config']
+  ~> Class['rarpd::service']
 }

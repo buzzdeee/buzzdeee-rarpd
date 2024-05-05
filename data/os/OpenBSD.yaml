@@ -1,0 +1,7 @@
+rarpd::enable_yplookup: false
+rarpd::config_file: '/etc/ethers'
+rarpd::service_enable: true
+rarpd::service_ensure: 'running'
+rarpd::service_flags: '-al'
+rarpd::service_name: 'rarpd'
+rarpd::ethers: {}
